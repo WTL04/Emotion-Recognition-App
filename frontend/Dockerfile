@@ -11,10 +11,6 @@ RUN npm install
 # Copy the rest of the files
 COPY . .
 
-# Environment variables for development
-ENV NODE_ENV=development
-ENV NEXT_TELEMETRY_DISABLED=1
-
 # Expose ports (Next.js + debugger)
 EXPOSE 3000
 
