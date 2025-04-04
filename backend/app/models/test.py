@@ -1,8 +1,11 @@
 import torch
 import torch.nn as nn
 from preprocess import test_loader
+from classifier_architecture import Model
 
-model.load_state_dict(torch.load("emotion_model_full.pth")) # load saved trained model weights
+# initiate model 
+model = Model()
+model.load_state_dict(torch.load("emotion_model_full.pth", map_location=torch.device("cuda" if torch.cuda.is_available() else "cpu"))) # load saved trained model weights
 model.eval()
 
 # initiate 

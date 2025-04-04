@@ -7,7 +7,7 @@ import numpy as np
 # initilaize array of emotion labels
 emotion_labels = ["Angry", "Disgust", "Fear", "Happy", "Neutral", "Sad", "Surprise"]
 
-model = torch.load("emotion_model_full.pth", map_location = torch.device('cpu'), weights_only = False) # load saved trained model
+model = torch.load("emotion_model_full.pth", map_location = torch.device("cuda" if torch.cuda.is_available() else "cpu")) # load saved trained model
 model.eval()
 
 # loading pre-trained classifer
