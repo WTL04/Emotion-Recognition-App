@@ -8,7 +8,7 @@ model = Model()
 
 # define loss and optimizer
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(model.parameters(), lr=0.001)
+optimizer = optim.Adam(model.parameters(), lr=0.0001)
 
 # training loop 
 num_epochs = 10

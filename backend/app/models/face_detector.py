@@ -1,5 +1,6 @@
 import cv2
 import torch
+import torch.nn.functional as F
 import pandas as pd 
 import numpy as np
 
@@ -48,9 +49,10 @@ while True:
 
         # get labeled emotion from 
         emotion = emotion_labels[prediction]
-        print(f"Detected Emotion: {emotion}")
-        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2) # draw green binding box
         
+        # draw binding box and put emotion on screen
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)  
+        cv2.putText(frame, emotion, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX,0.9, (36, 255, 12), 2) 
    
     cv2.imshow("YOLOv8 Tracking", frame)
 
