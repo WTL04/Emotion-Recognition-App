@@ -5,7 +5,7 @@ from torch.utils.data import DataLoader
 # Input: FER2013 images 
 train_transform = transforms.Compose([
     transforms.Grayscale(num_output_channels = 1), # grayscale the images
-    transforms.RandomCrop((44, 44)), # crop the images for more randomess
+    transforms.RandomCrop((46, 46)), # crop the images for more randomess
     transforms.Resize((48, 48)), # resize images
     transforms.RandomHorizontalFlip(), # flip randomly 
     transforms.RandomRotation(15), # rotate randomly
@@ -21,8 +21,8 @@ test_transform = transforms.Compose([
 ])
 
 train_batch_size = 64
-train_dataset = datasets.ImageFolder(root = "../data/archive/train", transform=train_transform)
-train_loader = DataLoader(train_dataset, batch_size=train_batch_size, shuffle=True)
+train_dataset = datasets.ImageFolder(root = "../data/archive/train", transform=train_transform) 
+train_loader = DataLoader(train_dataset, batch_size=train_batch_size, shuffle=True, num_workers = 8) # num_workers: num of subprocesses for loading data
 print(f"Loading Training set with batch size {train_batch_size}")
 
 test_batch_size = 256
