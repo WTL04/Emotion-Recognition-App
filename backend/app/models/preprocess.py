@@ -3,14 +3,14 @@ from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 
 # Input: FER2013 images 
-# transforming the inputs to be: grayscale, 48x48 size, conver to pytorch tensor, normalize the images
 train_transform = transforms.Compose([
-    transforms.Grayscale(num_output_channels = 1),
-    transforms.Resize((48, 48)),
-    transforms.RandomHorizontalFlip(),
-    transforms.RandomRotation(10),
-    transforms.ToTensor(),
-    transforms.Normalize(mean=[0.5], std=[0.5])
+    transforms.Grayscale(num_output_channels = 1), # grayscale the images
+    transforms.RandomCrop((44, 44)), # crop the images for more randomess
+    transforms.Resize((48, 48)), # resize images
+    transforms.RandomHorizontalFlip(), # flip randomly 
+    transforms.RandomRotation(15), # rotate randomly
+    transforms.ToTensor(), # turn into a tensor
+    transforms.Normalize(mean=[0.5], std=[0.5]) # Normalize the tensor
 ])
 
 test_transform = transforms.Compose([
