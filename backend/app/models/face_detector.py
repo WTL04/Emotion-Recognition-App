@@ -3,6 +3,7 @@ import torch
 import pandas as pd 
 import numpy as np
 
+# initilaize array of emotion labels
 emotion_labels = ["Angry", "Disgust", "Fear", "Happy", "Neutral", "Sad", "Surprise"]
 
 model = torch.load("emotion_model_full.pth", map_location = torch.device('cpu'), weights_only = False) # load saved trained model
@@ -29,11 +30,27 @@ while True:
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(50, 50))
 
-     # Draw bounding boxes around faces
     for (x, y, w, h) in faces:
+        
+        # getting face region, resulting face tensor: [1, 1, 48, 48]
+        face = gray[y:y+h, x:x+w]
+        face = cv2.resize(face, (48, 48)) # resize face to 48x48 pixels
+        face = np.expand_dims(face, axis=0) # add batch dimension
+        face = np.expand_dims(face, axis=0) # add channel dimension
+        face = torch.tensor(face, dtype=torch.float32) / 255.0  # array -> tensor, normalize pixels
 
-        # draw green binding box
-        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+        with torch.no_grad():
+            output = model(face)
+            # softmax turns tensor into probabilities
+            # argmax returns index of highest probability
+            # .item() extracts value as integer from tensor
+            prediction = torch.argmax(F.softmax(output, dim=1), dim=1).item()
+
+        # get labeled emotion from 
+        emotion = emotion_labels[prediction]
+        print(f"Detected Emotion: {emotion}")
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2) # draw green binding box
+        
    
     cv2.imshow("YOLOv8 Tracking", frame)
 

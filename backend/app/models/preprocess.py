@@ -10,11 +10,14 @@ transform = transforms.Compose([
     transforms.ToTensor(),
     transforms.Normalize(mean=[0.5], std=[0.5])
 ])
-
+train_batch_size = 32
 train_dataset = datasets.ImageFolder(root = "../data/archive/train", transform=transform)
-train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
+train_loader = DataLoader(train_dataset, batch_size=train_batch_size, shuffle=True)
+print(f"Loading Training set with batch size {train_batch_size}")
 
+test_batch_size = 256
 test_dataset = datasets.ImageFolder(root = "../data/archive/test", transform=transform)
-test_loader = DataLoader(test_dataset, batch_size=128, shuffle=True)
+test_loader = DataLoader(test_dataset, batch_size=test_batch_size, shuffle=True)
+print(f"Loading Test set with batch size {test_batch_size}")
 
 print("Datasets loaded successfully!")
