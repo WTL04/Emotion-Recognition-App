@@ -40,7 +40,7 @@ class Model(nn.Module):
             nn.Linear(512 * 3 * 3, 512),
             nn.ReLU(),
             nn.Dropout(0.5),
-            nn.Linear(512, 7) # outputs 1 classification out of 7
+            nn.Linear(512, 4) # outputs 1 classification out of 4
         )
 
     def forward(self, x):

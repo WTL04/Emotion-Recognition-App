@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 
 # initilaize array of emotion labels
-emotion_labels = ["Angry", "Disgust", "Fear", "Happy", "Neutral", "Sad", "Surprise"]
+emotion_labels = ["Angry", "Happy", "Neutral", "Sad"]
 
 model = torch.load("emotion_model_full.pth", map_location = torch.device("cuda" if torch.cuda.is_available() else "cpu")) # load saved trained model
 model.eval()

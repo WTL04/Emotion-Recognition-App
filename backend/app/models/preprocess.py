@@ -8,7 +8,7 @@ train_transform = transforms.Compose([
     transforms.RandomCrop((46, 46)), # crop the images for more randomess
     transforms.Resize((48, 48)), # resize images
     transforms.RandomHorizontalFlip(), # flip randomly 
-    transforms.RandomRotation(15), # rotate randomly
+    transforms.RandomRotation(20), # rotate randomly
     transforms.ToTensor(), # turn into a tensor
     transforms.Normalize(mean=[0.5], std=[0.5]) # Normalize the tensor
 ])
