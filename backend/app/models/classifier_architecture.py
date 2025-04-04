@@ -9,17 +9,21 @@ class Model(nn.Module):
     def __init__(self):
         """Initialize the model layers."""
         super().__init__()
+        self.conv_layers = nn.Sequential(
+            nn.Conv2d(in_channels=1, out_channels=64, kernel_size=3, padding=1), # (64. 48, 48s)
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2, stride=2), # (64, 24, 24)
+            nn.Conv2d(in_channels=64, out_channels=128, kernel_size=3, padding=1), # (128, 24, 24)
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2, stride=2), # (128, 12, 12)
+        )
 
-        # First convolutional layer (extracts basic features)
-        self.conv1 = nn.Conv2d(in_channels=1, out_channels=32, kernel_size=3)
-        self.activation1 = nn.ReLU()
-
-        # Second convolutional layer (learns more complex features)
-        self.conv2 = nn.Conv2d(in_channels=32, out_channels=64, kernel_size=3)
-        self.activation2 = nn.ReLU()
-
-        # Max pooling layer (reduces image size, retains important features)
-        self.pool = nn.MaxPool2d(kernel_size=2, stride=2)
+        self.fc_layers = nn.Sequential(
+            nn.Flatten(),
+            nn.Linear(128 * 12 * 12, 128),
+            nn.ReLU(),
+            nn.Linear(128, 7) # outputs 1 classification out of 7
+        )
 
     def forward(self, x):
         """
@@ -31,9 +35,7 @@ class Model(nn.Module):
         Returns:
             torch.Tensor: Processed feature map.
         """
-        x = self.activation1(self.conv1(x))  # Apply first conv layer + ReLU
-        x = self.activation2(self.conv2(x))  # Apply second conv layer + ReLU
-        x = self.pool(x)  # Downsample using max pooling
+        x = self.conv_layers(x)
+        x = self.fc_layers(x)
         return x
-
 

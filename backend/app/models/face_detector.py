@@ -1,4 +1,13 @@
 import cv2
+import torch
+import pandas as pd 
+import numpy as np
+
+emotion_labels = ["Angry", "Disgust", "Fear", "Happy", "Neutral", "Sad", "Surprise"]
+
+model = torch.load("emotion_model_full.pth", map_location = torch.device('cpu'), weights_only = False) # load saved trained model
+model.eval()
+
 # loading pre-trained classifer
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
 
@@ -22,8 +31,10 @@ while True:
 
      # Draw bounding boxes around faces
     for (x, y, w, h) in faces:
+
+        # draw green binding box
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-    
+   
     cv2.imshow("YOLOv8 Tracking", frame)
 
     # press 'q' to exit loop 
