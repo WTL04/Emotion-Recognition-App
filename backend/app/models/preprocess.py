@@ -20,7 +20,7 @@ test_transform = transforms.Compose([
     transforms.Normalize(mean=[0.5], std=[0.5])
 ])
 
-train_batch_size = 32
+train_batch_size = 64
 train_dataset = datasets.ImageFolder(root = "../data/archive/train", transform=train_transform)
 train_loader = DataLoader(train_dataset, batch_size=train_batch_size, shuffle=True)
 print(f"Loading Training set with batch size {train_batch_size}")
