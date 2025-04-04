@@ -25,4 +25,8 @@ Tech Stack:
 - Frontend: Nextjs and Tailwindcss 
 - Backend: FastAPI 
 
-
+# Progress 
+04/04/2025 
+- Model accuracy up to roughly 70%
+- Confusion matrix states that the model struggles with "Anger"
+- "Sad" is also confused with "Neutral"
