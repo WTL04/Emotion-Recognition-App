@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from preprocess import test_loader
 
-model = torch.load("emotion_model_full.pth", weights_only = False) # load saved trained model
+model.load_state_dict(torch.load("emotion_model_full.pth")) # load saved trained model weights
 model.eval()
 
 # initiate 

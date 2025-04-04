@@ -4,20 +4,27 @@ import torch.optim as optim
 from preprocess import train_loader
 from classifier_architecture import Model
 
-model = Model()
+# train model on either cpu or gpu
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"Training using: {device}")
+model = Model().to(device)
 
 # define loss and optimizer
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(model.parameters(), lr=0.0001)
+optimizer = optim.Adam(model.parameters(), lr=0.001)
 
 # training loop 
-num_epochs = 10
+num_epochs = 30
 
 for epoch in range(num_epochs):
     model.train()
     running_loss = 0.0
     
     for images, labels, in train_loader:
+
+        # move images and labels to same device as model
+        images, labels = images.to(device), labels.to(device)
+
         optimizer.zero_grad() # reset gradients
         outputs = model(images) # input training set
         loss = criterion(outputs, labels) # calculate loss comparing predicted vs actual
@@ -28,6 +35,6 @@ for epoch in range(num_epochs):
     epoch_loss = running_loss / len(train_loader)
     print(f"Epoch {epoch+1}/{num_epochs}, Loss: {epoch_loss}")
 
-torch.save(model, "emotion_model_full.pth")  # Saves the full model
-
+model.eval()
+torch.save(model.state_dict(), "emotion_model_full.pth")  # Saves the model's weights
 
