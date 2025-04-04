@@ -3,11 +3,13 @@ import torch
 import torch.nn.functional as F
 import pandas as pd 
 import numpy as np
+from classifier_architecture import Model
 
 # initilaize array of emotion labels
 emotion_labels = ["Angry", "Happy", "Neutral", "Sad"]
 
-model = torch.load("emotion_model_full.pth", map_location = torch.device("cuda" if torch.cuda.is_available() else "cpu")) # load saved trained model
+model = Model()
+model.load_state_dict(torch.load("emotion_model_full.pth", map_location = torch.device("cuda" if torch.cuda.is_available() else "cpu"))) # load saved trained model
 model.eval()
 
 # loading pre-trained classifer
