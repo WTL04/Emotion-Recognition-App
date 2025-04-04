@@ -13,6 +13,10 @@ model = Model().to(device)
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
+# scheduler that adjusts learning rate every n epochs
+# multiples learning rate by gamma every n epochs
+scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.5)
+
 # training loop 
 num_epochs = 50
 
@@ -31,6 +35,8 @@ for epoch in range(num_epochs):
         loss.backward() # backwards propagation optimizing
         optimizer.step() # optimize
         running_loss += loss.item()
+
+    scheduler.step() # adjust learning rate
     
     epoch_loss = running_loss / len(train_loader)
     print(f"Epoch {epoch+1}/{num_epochs}, Loss: {epoch_loss}")
