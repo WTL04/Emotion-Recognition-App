@@ -44,10 +44,12 @@ while True:
 
         with torch.no_grad():
             output = model(face)
-            # softmax turns tensor into probabilities
+            # softmax turns tensor into tensor of probabilities
             # argmax returns index of highest probability
             # .item() extracts value as integer from tensor
-            prediction = torch.argmax(F.softmax(output, dim=1), dim=1).item()
+            probabilities = F.softmax(output, dim=1)
+            prediction = torch.argmax(probabilities, dim=1).item()
+            precentage = probabilities[0][prediction].item() * 100
 
         # get labeled emotion from 
         emotion = emotion_labels[prediction]
@@ -55,8 +57,9 @@ while True:
         # draw binding box and put emotion on screen
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)  
         cv2.putText(frame, emotion, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX,0.9, (36, 255, 12), 2) 
+        cv2.putText(frame, f"{precentage:.2f}%", (x+100, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (36, 255, 12), 2)
    
-    cv2.imshow("YOLOv8 Tracking", frame)
+    cv2.imshow("Haar Cascades Tracking", frame)
 
     # press 'q' to exit loop 
     if cv2.waitKey(1) == ord('q'):
