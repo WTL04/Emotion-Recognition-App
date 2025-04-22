@@ -39,7 +39,7 @@ class Model(nn.Module):
             nn.Flatten(),
             nn.Linear(512 * 3 * 3, 512),
             nn.ReLU(),
-            nn.Dropout(0.5),
+            nn.Dropout(0.3), # lowering dropout
             nn.Linear(512, 4) # outputs 1 classification out of 4
         )
 

@@ -4,6 +4,7 @@ from torchvision import datasets, transforms
 from torch.utils.data import DataLoader, WeightedRandomSampler
 
 # Input: FER2013 images 
+# Data augmentation!
 train_transform = transforms.Compose([
     transforms.Grayscale(num_output_channels = 1), # grayscale the images
     transforms.RandomCrop((46, 46)), # crop the images for more randomess
@@ -23,7 +24,7 @@ test_transform = transforms.Compose([
 
 
 # loading training dataset
-train_batch_size = 64
+train_batch_size = 258
 train_dataset = datasets.ImageFolder(root = "../data/archive/train", transform=train_transform) 
 
 # using sampler to balance classes 
@@ -41,7 +42,7 @@ train_loader = DataLoader(train_dataset, batch_size=train_batch_size, sampler=sa
 print(f"Loading Training set with batch size {train_batch_size}")
 
 # loading test dataset
-test_batch_size = 256
+test_batch_size = 2048
 test_dataset = datasets.ImageFolder(root = "../data/archive/test", transform=test_transform)
 test_loader = DataLoader(test_dataset, batch_size=test_batch_size, shuffle=True)
 print(f"Loading Test set with batch size {test_batch_size}")
