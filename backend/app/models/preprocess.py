@@ -1,7 +1,9 @@
 import torch
 import numpy as np
 from torchvision import datasets, transforms
+import torchvision.utils
 from torch.utils.data import DataLoader, WeightedRandomSampler
+import matplotlib.pyplot as plt
 
 # Input: FER2013 images 
 # Data augmentation!
@@ -24,7 +26,7 @@ test_transform = transforms.Compose([
 
 
 # loading training dataset
-train_batch_size = 258
+train_batch_size = 128
 train_dataset = datasets.ImageFolder(root = "../data/archive/train", transform=train_transform) 
 
 # using sampler to balance classes 
@@ -42,10 +44,30 @@ train_loader = DataLoader(train_dataset, batch_size=train_batch_size, sampler=sa
 print(f"Loading Training set with batch size {train_batch_size}")
 
 # loading test dataset
-test_batch_size = 2048
+test_batch_size = 4056
 test_dataset = datasets.ImageFolder(root = "../data/archive/test", transform=test_transform)
 test_loader = DataLoader(test_dataset, batch_size=test_batch_size, shuffle=True)
 print(f"Loading Test set with batch size {test_batch_size}")
 
 print("Datasets loaded successfully!")
 
+
+# Visualizing the batch class distribution
+from collections import Counter 
+
+data_iterator = iter(train_loader)
+images, labels = next(data_iterator)
+label_count = Counter(labels.tolist()) # [(20, "Angry"), (30, "Happy"), ... ]
+class_names = train_dataset.classes
+
+x = class_names
+y = [label_count.get(i, 0) for i in range(len(class_names))]
+
+plt.figure(figsize=(8,6))
+plt.bar(x, y)
+plt.title("Class distribution in a batch")
+plt.xlabel("Class")
+plt.ylabel("Count")
+plt.grid(axis='y')
+plt.savefig("batch_class_distribution.png")
+print("Saved batch distribution visual in batch_class_distribution.png")
